@@ -1,7 +1,5 @@
 package se.miun.dt015a.guesser;
 
-import java.util.Random;
-
 import se.miun.dt015a.guesser.Oracle.Answer;
 
 /**
@@ -19,11 +17,8 @@ public class LogGuesser implements Guesser {
 		// Answer enum to hold the answer from the Oracle
 		Answer answer;
 
-		// Holds the huess
+		// Holds the guess
 		int guess;
-
-		// Used to get a random number
-		Random random = new Random();
 
 		// Holds the upper limit
 		int upperLimit = max;
@@ -34,8 +29,8 @@ public class LogGuesser implements Guesser {
 		// Goes forever
 		while (1 < 2) {
 
-			// Get a guess in the range left to guess in
-			guess = random.nextInt(upperLimit) + lowerLimit;
+			// Get a guess in the middle of the range left to guess in
+			guess = lowerLimit + Math.round((upperLimit - lowerLimit) / 2);
 
 			// Ask the Oracle of i is correct
 			answer = oracle.test(guess);
@@ -45,15 +40,18 @@ public class LogGuesser implements Guesser {
 
 				// Set upperLimit to guess - 1, since the limit is inclusive
 				upperLimit = guess - 1;
+
 			} else if (answer.equals(Answer.TOO_LOW)) {
 
 				// Set lowerLimitLimit to guess + 1, since the limit is
 				// inclusive
 				lowerLimit = guess + 1;
+
 			} else if (answer.equals(Answer.MATCH)) {
 
 				// Return i if so
 				return guess;
+
 			} else {
 
 				// Return -1 of nothing was found
